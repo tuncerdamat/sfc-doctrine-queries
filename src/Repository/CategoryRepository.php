@@ -51,6 +51,20 @@ class CategoryRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @param string $term
+     * @return Category[]
+     */
+    public function search(string $term): array
+    {
+        return $this->createQueryBuilder('category')
+            ->andWhere('category.name LIKE :searchTerm OR category.iconKey LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$term.'%')
+            ->addOrderBy('category.name', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */
