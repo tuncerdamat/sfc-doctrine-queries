@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\FortuneCookie;
 use App\Model\CategoryFortuneStats;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -70,6 +71,12 @@ class FortuneCookieRepository extends ServiceEntityRepository
 
         return new CategoryFortuneStats(...$result->fetchAssociative());
 
+    }
+
+    public static function createFortuneCookiesStillInProductionCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('discontinued', false));
     }
 
 //    /**
